@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/mnt/1664CCE864CCCBA5/11. Practice Coding/C_programming/Car_race(console)/main.cpp
+iostream
+-
+conio.h
+-
+dos.h
+-
+windows.h
+-
+time.h
+-
+
