@@ -96,8 +96,144 @@ void eraseCar(){
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
             gotoxy(j+carPos, i+22); cout<<"  ";
+        }
+    }
+}
 
+int collision(){
+    if (enemyY[0]+4 >=23 ){
+        if (enemyX[0] +4 - carPos >= 0 && enemyX[0] +4 -carPos < 9){
+            return 1;
+        }
+    }return 0;
+}
+
+/*Game Over message--------------------------------------------------------------*/
+
+void gameOver(){
+    system("cls");
+    cout<<endl;
+    cout<<"\t\t------------------------------------------------------------------"<<endl;
+    cout<<"\t\t--------------------- Game Over ----------------------------------"<<endl;
+    cout<<"\t\t------------------------------------------------------------------"<<endl<<endl;
+    cout<<"\t\tPress Any Key to go back to menu....";
+    getch();
+}
+
+void updateScore(){
+    gotoxy(WIN_WIDTH+7,5); cout<<"Score : "<<score<<endl;
+}
+
+void instruction(){
+    system("cls");
+    cout<<"Instructions";
+    cout<<"\n---------------------------------------------------------------------";
+    cout<<"\nAvoid cars by moving left or right. ";
+    cout<<"\n\nPress 'a' t move left ";
+    cout<<"\nPress 'd' t move right ";
+    cout<<"\nPress 'esc' to exit ";
+    cout<<"\n\nPress Any Key to go back to menu....";
+    getch();
+}
+
+void play(){
+    carPos = -1 +WIN_WIDTH/2;
+    score=0;
+    enemyFlag[0] = 1;
+    enemyFlag[1] = 0;
+    enemyY[0] = enemyY[1] = 1;
+
+    system("cls");
+    drawBorder();
+    updateScore();
+    genEnemy(0);
+    genEnemy(1);
+
+    gotoxy(WIN_WIDTH + 7, 2);cout<< "Car Game";
+    gotoxy(WIN_WIDTH + 6, 4);cout<< "------------------";
+    gotoxy(WIN_WIDTH + 6, 6);cout<< "------------------";
+    gotoxy(WIN_WIDTH + 7, 12);cout<< "Control ";
+    gotoxy(WIN_WIDTH + 7, 13);cout<< "-----------";
+    gotoxy(WIN_WIDTH + 2, 14);cout<< "A Key - Left";
+    gotoxy(WIN_WIDTH + 2, 15);cout<< "D Key - Right";
+
+    gotoxy(18,5);cout<<"Press ant key to Start . ";
+    getch();
+    gotoxy(18,5);cout<<"                         ";
+
+    while (1){
+        if (kbhit()){
+            char ch = getch();
+            if (ch=='a' || ch=='A' ){
+                if (carPos >18)
+                    carPos -= 4;
+            }
+            if (ch=='d' || ch=='D'){
+                if (carPos < 50)
+                    carPos +=4;
+            }
+            if (ch==27){
+                break;
+            }
+        }
+
+        drawCar();
+        drawEnemy(0);
+        drawEnemy(1);
+        if ( collision() == 1){
+            gameOver();
+            return;
+        }
+        Sleep(50);
+        eraseCar();
+        eraseEnemy(0);
+        eraseEnemy(1);
+
+        if (enemyY[0] == 10)
+            if (enemyFlag[1]==0)
+                enemyFlag[1] = 1;
+
+        if ( enemyFlag[0] ==1)
+            enemyY[0] +=1;
+
+        if (enemyFlag[1]==1)
+            enemyY[1] += 1;
+
+        if ( enemyY[0] > SCREEN_HEIGHT-4){
+            resetEnemy(0);
+            score++;
+            updateScore();
+        }
+
+        if (enemyY[1] > SCREEN_HEIGHT -4){
+            resetEnemy(1);
+            score++;
+            updateScore();
         }
 
     }
+}
+
+int main(){
+    setcursor(0,0);
+    srand((unsigned ) time(NULL));
+
+    do {
+        system("cls");
+        gotoxy(10,5); cout<<"-----------------------------------------";
+        gotoxy(10,6); cout<<" |          Car Game                    | ";
+        gotoxy(10,7); cout<<"-----------------------------------------";
+        gotoxy(10,9); cout<<"1. Start Game ";
+        gotoxy(10,10); cout<<"2. Instruction ";
+        gotoxy(10,11); cout<<"3. Quit ";
+        gotoxy(10,13); cout<<"3. SELECT OPTION :  ";
+
+        char op = getche();
+
+        if (op=='1') play();
+        else if (op=='2') instruction();
+        else if (op=='3') exit(0);
+    } while (1);
+
+    return 0;
 }
