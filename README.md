@@ -5,7 +5,7 @@
 - Plyer - move Right ( D or d )
   move Left ( A or a )
 
-<h2>Overview Fighting Game️ </h2>
+<h2>Overview Car Game️ </h2>
 
 ![Isuru Lakmal](assets/Screenshot_20220929-143323_Video%20Player.jpg)
 
